@@ -5,12 +5,13 @@ var cors = require('cors');
 const fs = require('fs');
 const serverPort = 5000;
 
-// For CommonJS (CJS)
 const MailerLite = require('@mailerlite/mailerlite-nodejs').default;
 
 const mailerlite = new MailerLite({
   api_key: process.env.MAILERLITE_KEY
 });
+
+const mailerlite_group_id = process.env.MAILERLITE_GROUP_ID.toString();
 
 //For HTTPS
 //const https = require('https');
@@ -25,24 +26,70 @@ app.get('/', (req, res) => {
 });
 
 router.post('/send', (req, res, next) => {
-    const currentDateTime = new Date();
-    const formattedDateTime = currentDateTime.toISOString().slice(0, 19).replace('T', ' ');
+    const currentDateTimeUTC = new Date();
+    const formattedDateTime = currentDateTimeUTC.toISOString().slice(0, 19).replace('T', ' ');
+
+    // Extracting first and last name parts
+    let fullName = req.body.name;
+    let first_name, last_name;
+
+    // Check if the input contains spaces
+    if (fullName.includes(' ')) {
+        let splitName = fullName.split(' ');
+        first_name = splitName.shift(); // Extract the first part as first_name
+        last_name = splitName.join(' '); // Join the remaining parts as last_name
+    } else {
+        first_name = fullName; // If no spaces, the whole input is first_name
+        last_name = null;
+    }
+
+    const utm_source = req.body.utm_source;
+    const utm_term = req.body.utm_term;
+    const utm_medium = req.body.utm_medium;
+
+    const postArray = {
+      secret: process.env.RECAPTCHA_SECRET,
+      response: req.body.reCaptchaToken
+    };
+    
+    const postJSON = new URLSearchParams(postArray).toString();
+    
+    fetch("https://www.google.com/recaptcha/api/siteverify", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: postJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response
+        if (data.success === true && data.score >= 0.5) {
+            // The reCaptcha verification was successful
+            console.log("Ok!");
+        } else {
+            console.log("NOT Ok!");
+        }
+    })
+    .catch(error => {
+        // Handle errors
+        console.log("Error");
+        console.error('Error:', error);
+    });
 
     const params = {
         email: req.body.email,
         fields: {
-          name: req.body.name,
-          last_name: "Testerson",
-          company: "MailerLite",
-          country: "Best country",
-          city: "Best city",
-          phone: "37060677606",
-          state: "Best state",
-          z_i_p: "99999"
+          name: first_name,
+          last_name: last_name,
+          utm_source: utm_source,
+          utm_term: utm_term,
+          utm_medium: utm_medium
         },
-        groups: ["108849248378815498"],
+        groups: [mailerlite_group_id],
         status: "active", // possible statuses: active, unsubscribed, unconfirmed, bounced or junk.
         subscribed_at: formattedDateTime,
+        update_at: formattedDateTime,
         ip_address: null,
         opted_in_at: formattedDateTime,
         optin_ip: null,
