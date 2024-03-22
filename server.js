@@ -47,9 +47,11 @@ router.post('/send', (req, res, next) => {
     const utm_term = req.body.utm_term;
     const utm_medium = req.body.utm_medium;
 
+    // console.log(req);
+
     const postArray = {
       secret: process.env.RECAPTCHA_SECRET,
-      response: req.body.reCaptchaToken
+      response: req.body['g-recaptcha-response']
     };
     
     const postJSON = new URLSearchParams(postArray).toString();
@@ -66,9 +68,46 @@ router.post('/send', (req, res, next) => {
         // Handle the response
         if (data.success === true && data.score >= 0.5) {
             // The reCaptcha verification was successful
-            console.log("Ok!");
+            console.log("reCaptcha verification successful!");
+            console.log(data);
+
+            const params = {
+              email: req.body.email,
+              fields: {
+                name: first_name,
+                last_name: last_name,
+                utm_source: utm_source,
+                utm_term: utm_term,
+                utm_medium: utm_medium
+              },
+              groups: [mailerlite_group_id],
+              status: "active", // possible statuses: active, unsubscribed, unconfirmed, bounced or junk.
+              subscribed_at: formattedDateTime,
+              update_at: formattedDateTime,
+              ip_address: null,
+              opted_in_at: formattedDateTime,
+              optin_ip: null,
+              unsubscribed_at: null
+            };
+            
+            mailerlite.subscribers.createOrUpdate(params)
+              .then(response => {
+                console.log(response.data);
+                res.json({
+                  status: 'success',
+              });
+              })
+              .catch(error => {
+                if (error.response) console.log(error.response.data);
+                res.json({
+                  status: 'fail',
+              });
+              });
+
         } else {
-            console.log("NOT Ok!");
+            console.log("reCaptcha verification FAILED!");
+            console.log(data);
+            console.log(postArray);
         }
     })
     .catch(error => {
@@ -76,39 +115,6 @@ router.post('/send', (req, res, next) => {
         console.log("Error");
         console.error('Error:', error);
     });
-
-    const params = {
-        email: req.body.email,
-        fields: {
-          name: first_name,
-          last_name: last_name,
-          utm_source: utm_source,
-          utm_term: utm_term,
-          utm_medium: utm_medium
-        },
-        groups: [mailerlite_group_id],
-        status: "active", // possible statuses: active, unsubscribed, unconfirmed, bounced or junk.
-        subscribed_at: formattedDateTime,
-        update_at: formattedDateTime,
-        ip_address: null,
-        opted_in_at: formattedDateTime,
-        optin_ip: null,
-        unsubscribed_at: null
-      };
-      
-      mailerlite.subscribers.createOrUpdate(params)
-        .then(response => {
-          console.log(response.data);
-          res.json({
-            status: 'success',
-        });
-        })
-        .catch(error => {
-          if (error.response) console.log(error.response.data);
-          res.json({
-            status: 'fail',
-        });
-        });
 
 });
 
