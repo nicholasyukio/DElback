@@ -14,7 +14,7 @@ const mailerlite = new MailerLite({
 const mailerlite_group_id = process.env.MAILERLITE_GROUP_ID.toString();
 
 //For HTTPS
-//const https = require('https');
+const https = require('https');
 
 const app = express();
 app.use(cors());
@@ -118,19 +118,19 @@ router.post('/send', (req, res, next) => {
 
 });
 
-//This is for https server, make sure to set the path to the certificates
-// const httpsServer = https.createServer(
-// 	{
-// 		key: fs.readFileSync('path-to-privkey.pem'),
-// 		cert: fs.readFileSync('path-to-cert.pem'),
-// 	},
-// 	app
-// );
-// httpsServer.listen(serverPort, () =>
-// 	console.log(`backend is running on port ${serverPort}`)
-// );
-
-//For testing locally
-app.listen(serverPort, () =>
+// This is for https server, make sure to set the path to the certificates
+const httpsServer = https.createServer(
+	{
+		key: fs.readFileSync('/etc/letsencrypt/live/dominioeletrico.com.br/privkey.pem'),
+		cert: fs.readFileSync('/etc/letsencrypt/live/dominioeletrico.com.br/fullchain.pem'),
+	},
+	app
+);
+httpsServer.listen(serverPort, () =>
 	console.log(`backend is running on port ${serverPort}`)
 );
+
+//For testing locally
+// app.listen(serverPort, () =>
+// 	console.log(`backend is running on port ${serverPort}`)
+// );
