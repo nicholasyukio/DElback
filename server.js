@@ -121,8 +121,8 @@ router.post('/send', (req, res, next) => {
 // This is for https server, make sure to set the path to the certificates
 const httpsServer = https.createServer(
 	{
-		key: fs.readFileSync('/etc/letsencrypt/live/dominioeletrico.com.br/privkey.pem'),
-		cert: fs.readFileSync('/etc/letsencrypt/live/dominioeletrico.com.br/fullchain.pem'),
+		key: fs.readFileSync('privkey.pem'),
+		cert: fs.readFileSync('fullchain.pem'),
 	},
 	app
 );
