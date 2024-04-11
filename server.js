@@ -25,22 +25,6 @@ app.get('/', (req, res) => {
 	res.json('hi');
 });
 
-router.post('/events', async (req, res, next) => {
-  let response = await fetch('https://api.dominioeletrico.com.br/events', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(req),
-  });
-  let result = await response.json();
-  if (result.status === 'success') {
-      console.log("Send Events to API Success");
-  } else if (result.status === 'fail') {
-      console.log("Send Events to API Fail");
-  }
-});
-
 router.post('/send', (req, res, next) => {
     const currentDateTimeUTC = new Date();
     const formattedDateTime = currentDateTimeUTC.toISOString().slice(0, 19).replace('T', ' ');
