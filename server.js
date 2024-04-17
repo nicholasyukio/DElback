@@ -38,7 +38,7 @@ router.get('/similar', (req, res) => {
   res.json(arrayOfObjects);
 });
 
-router.get('/videoinfo/:videoId', (req, res) => {
+router.get('/videoinfo', (req, res) => {
   const fetch = require('node-fetch');
   // const videoId = req.params.videoId;
   const videoId = "df888598-6b99-46ef-bb12-4f2e310af093";
