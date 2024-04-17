@@ -38,10 +38,10 @@ router.get('/similar', (req, res) => {
   res.json(arrayOfObjects);
 });
 
-router.get('/videoinfo', (req, res) => {
+router.get('/videoinfo/:videoId', (req, res) => {
   const bunny_api_key = process.env.BUNNY_API_KEY;
-  // const videoId = req.params.videoId;
-  const videoId = "df888598-6b99-46ef-bb12-4f2e310af093";
+  const videoId = req.params.videoId;
+  // const videoId = "df888598-6b99-46ef-bb12-4f2e310af093";
   const url = `https://video.bunnycdn.com/library/188909/videos/${videoId}`;
   const options = {
   method: 'GET',
