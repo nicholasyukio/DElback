@@ -55,6 +55,7 @@ router.get('/similar', (req, res) => {
     fetch(url, options)
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         for (const video in data.items) {
             arrayOfVideos.push({ id: video.guid, title: video.title, thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`});
         }
