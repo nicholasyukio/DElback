@@ -25,6 +25,18 @@ app.get('/', (req, res) => {
 	res.json('hi');
 });
 
+router.get('/similar', (req, res) => {
+  // Sample array of objects
+  const arrayOfObjects = [
+      { id: "df888598-6b99-46ef-bb12-4f2e310af093", title: "01_circuito_corrente_alternada_calcular_frequencia.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/df888598-6b99-46ef-bb12-4f2e310af093/thumbnail_fb4e8774.jpg" },
+      { id: "718dbf44-0458-4a2c-9fef-219b8033422c", title: "02_circuito_de_primeira_ordem_RL.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/718dbf44-0458-4a2c-9fef-219b8033422c/thumbnail_7fe99388.jpg"},
+      { id: "2c1416db-7634-4f11-bd0f-112fe17b3450", title: "03_circuito_RL_potencia_complexa.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/2c1416db-7634-4f11-bd0f-112fe17b3450/thumbnail_66304a20.jpg" }
+  ];
+
+  // Send the array of objects as the response
+  res.json(arrayOfObjects);
+});
+
 router.post('/send', (req, res, next) => {
     const currentDateTimeUTC = new Date();
     const formattedDateTime = currentDateTimeUTC.toISOString().slice(0, 19).replace('T', ' ');
