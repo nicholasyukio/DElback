@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 });
 
 router.get('/similar', (req, res) => {
+  const bunny_api_key = process.env.BUNNY_API_KEY;
   // Sample array of objects
   const arrayOfObjects = [
       { id: "df888598-6b99-46ef-bb12-4f2e310af093", title: "01_circuito_corrente_alternada_calcular_frequencia.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/df888598-6b99-46ef-bb12-4f2e310af093/thumbnail_fb4e8774.jpg" },
