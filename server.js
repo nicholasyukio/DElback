@@ -13,7 +13,6 @@ const mailerlite = new MailerLite({
 });
 
 const mailerlite_group_id = process.env.MAILERLITE_GROUP_ID.toString();
-const bunny_api_key = process.env.BUNNY_API_KEY;
 
 //For HTTPS
 const https = require('https');
@@ -40,6 +39,7 @@ router.get('/similar', (req, res) => {
 });
 
 router.get('/videoinfo', (req, res) => {
+  const bunny_api_key = process.env.BUNNY_API_KEY;
   // const videoId = req.params.videoId;
   const videoId = "df888598-6b99-46ef-bb12-4f2e310af093";
   const url = `https://video.bunnycdn.com/library/188909/videos/${videoId}`;
