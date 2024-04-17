@@ -34,8 +34,36 @@ router.get('/similar', (req, res) => {
       { id: "2c1416db-7634-4f11-bd0f-112fe17b3450", title: "03_circuito_RL_potencia_complexa.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/2c1416db-7634-4f11-bd0f-112fe17b3450/thumbnail_66304a20.jpg" }
   ];
 
+  let arrayOfVideos = [];
+
+  const availableCollections = [
+    "e1e127d6-2712-410c-b61d-feb3621183f0",
+    "e2326952-6131-46a6-b972-dd0534c280f8"
+  ];
+
+  for (const collection in availableCollections) {
+    const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=10&collection=${collection}&orderBy=date`;
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        AccessKey: bunny_api_key
+      }
+    };
+  
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        for (const video in data.items) {
+            arrayOfVideos.push({ id: video.guid, title: video.title, thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`});
+        }
+    })
+    .catch(err => console.error('error:' + err));
+  }
+
+
   // Send the array of objects as the response
-  res.json(arrayOfObjects);
+  res.json(arrayOfVideos);
 });
 
 router.get('/videoinfo/:videoId', (req, res) => {
