@@ -42,29 +42,35 @@ router.get('/similar', (req, res) => {
     "e2326952-6131-46a6-b972-dd0534c280f8"
   ];
 
-  for (const collection of availableCollections) {
-    const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=10&collection=${collection}&orderBy=date`;
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        AccessKey: bunny_api_key
-      }
-    };
-  
-    fetch(url, options)
-    .then(response => response.json())
-    .then(data => {
-          data.items.forEach(video => {
-            arrayOfVideos.push({ 
-                id: video.guid, 
-                title: video.title, 
-                thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`
+  const fetchVideos = async () => {
+    for (const collection of availableCollections) {
+        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=10&collection=${collection}&orderBy=date`;
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                AccessKey: bunny_api_key
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            data.items.forEach(video => {
+                arrayOfVideos.push({ 
+                    id: video.guid, 
+                    title: video.title, 
+                    thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`
+                });
             });
-        });
-    })
-    .catch(err => console.error('error:' + err));
-  }
+        } catch (err) {
+            console.error('error:', err);
+        }
+    }
+};
+
+fetchVideos();
 
 
   // Send the array of objects as the response
