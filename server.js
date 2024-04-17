@@ -51,8 +51,10 @@ router.get('/videoinfo', (req, res) => {
     }
   };
   fetch(url, options)
-  .then(res => res.json())
-  .then(json => console.log(json))
+  .then(response => response.json())
+  .then(data => {
+    res.json(data);
+  })
   .catch(err => console.error('error:' + err));
 });
 
