@@ -42,7 +42,7 @@ router.get('/similar', (req, res) => {
     "e2326952-6131-46a6-b972-dd0534c280f8"
   ];
 
-  for (const collection in availableCollections) {
+  for (const collection of availableCollections) {
     const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=10&collection=${collection}&orderBy=date`;
     const options = {
       method: 'GET',
@@ -55,10 +55,13 @@ router.get('/similar', (req, res) => {
     fetch(url, options)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        for (const video in data.items) {
-            arrayOfVideos.push({ id: video.guid, title: video.title, thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`});
-        }
+          data.items.forEach(video => {
+            arrayOfVideos.push({ 
+                id: video.guid, 
+                title: video.title, 
+                thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`
+            });
+        });
     })
     .catch(err => console.error('error:' + err));
   }
