@@ -2,7 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var cors = require('cors');
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 const fs = require('fs');
 const serverPort = 5000;
 
@@ -40,7 +40,6 @@ router.get('/similar', (req, res) => {
 });
 
 router.get('/videoinfo', (req, res) => {
-  
   // const videoId = req.params.videoId;
   const videoId = "df888598-6b99-46ef-bb12-4f2e310af093";
   const url = `https://video.bunnycdn.com/library/188909/videos/${videoId}`;
