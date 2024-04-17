@@ -50,21 +50,9 @@ router.get('/videoinfo/:videoId', (req, res) => {
     }
   };
   fetch(url, options)
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      return response.json();
-  })
-  .then(videoInfo => {
-      // Send the fetched video information as response
-      res.json(videoInfo);
-  })
-  .catch(error => {
-      console.error('Error:', error);
-      // Send an error response if fetching fails
-      res.status(500).json({ error: 'Failed to fetch video information' });
-  });
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error('error:' + err));
 });
 
 router.post('/send', (req, res, next) => {
