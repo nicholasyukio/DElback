@@ -12,6 +12,7 @@ const mailerlite = new MailerLite({
 });
 
 const mailerlite_group_id = process.env.MAILERLITE_GROUP_ID.toString();
+const bunny_api_key = process.env.BUNNY_API_KEY;
 
 //For HTTPS
 const https = require('https');
@@ -35,6 +36,35 @@ router.get('/similar', (req, res) => {
 
   // Send the array of objects as the response
   res.json(arrayOfObjects);
+});
+
+router.get('/videoinfo/:videoId', (req, res) => {
+  const fetch = require('node-fetch');
+  const videoId = req.params.videoId;
+  const url = `https://video.bunnycdn.com/library/188909/videos/${videoId}`;
+  const options = {
+  method: 'GET',
+  headers: {
+      accept: 'application/json',
+      AccessKey: bunny_api_key
+    }
+  };
+  fetch(url, options)
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+  })
+  .then(videoInfo => {
+      // Send the fetched video information as response
+      res.json(videoInfo);
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      // Send an error response if fetching fails
+      res.status(500).json({ error: 'Failed to fetch video information' });
+  });
 });
 
 router.post('/send', (req, res, next) => {
