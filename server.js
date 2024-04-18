@@ -69,8 +69,9 @@ router.get('/similar', (req, res) => {
         }
 };
 
+
+fetchVideos();
 console.log(arrayOfVideos);
-// fetchVideos();
 
 
   // Send the array of objects as the response
