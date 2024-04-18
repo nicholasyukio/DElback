@@ -55,7 +55,7 @@ router.get('/similar', (req, res) => {
         try {
             const response = await fetch(url, options);
             const data = await response.json();
-            console.log(data);
+            console.log(data.items);
             data.items.forEach(video => {
                 arrayOfVideos.push({ 
                     id: video.guid, 
