@@ -64,6 +64,7 @@ router.get('/similar', (req, res) => {
                 // console.log(arrayOfVideos);
             });
             console.log(arrayOfVideos);
+            res.json(arrayOfVideos);
         } catch (err) {
             console.error('error:', err);
         }
@@ -75,7 +76,7 @@ fetchVideos();
 
 
   // Send the array of objects as the response
-  res.json(arrayOfVideos);
+  
 });
 
 router.get('/videoinfo/:videoId', (req, res) => {
