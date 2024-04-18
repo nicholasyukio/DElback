@@ -50,6 +50,13 @@ router.get('/similar', (req, res) => {
                 AccessKey: bunny_api_key
             }
         };
+        const shuffleArray = (array) => {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        };        
         try {
             const response = await fetch(url, options);
             const data = await response.json();
@@ -64,7 +71,7 @@ router.get('/similar', (req, res) => {
                 // console.log(arrayOfVideos);
             });
             console.log(arrayOfVideos);
-            res.json(arrayOfVideos);
+            res.json(shuffleArray(arrayOfVideos));
         } catch (err) {
             console.error('error:', err);
         }
