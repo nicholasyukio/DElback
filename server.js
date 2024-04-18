@@ -42,7 +42,7 @@ router.get('/similar', (req, res) => {
 
   const fetchVideos = async () => {
         let arrayOfVideos = [];
-        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=10&collection=e1e127d6-2712-410c-b61d-feb3621183f0&orderBy=date`;
+        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=30&collection=e1e127d6-2712-410c-b61d-feb3621183f0&orderBy=date`;
         const options = {
             method: 'GET',
             headers: {
