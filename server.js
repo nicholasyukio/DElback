@@ -35,14 +35,13 @@ router.get('/similar', (req, res) => {
       { id: "2c1416db-7634-4f11-bd0f-112fe17b3450", title: "03_circuito_RL_potencia_complexa.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/2c1416db-7634-4f11-bd0f-112fe17b3450/thumbnail_66304a20.jpg" }
   ];
 
-  let arrayOfVideos = [];
-
   const availableCollections = [
     "e1e127d6-2712-410c-b61d-feb3621183f0",
     "e2326952-6131-46a6-b972-dd0534c280f8"
   ];
 
-  const fetchVideos = async (arrayOfVideos) => {
+  const fetchVideos = async () => {
+        let arrayOfVideos = [];
         const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=10&collection=e1e127d6-2712-410c-b61d-feb3621183f0&orderBy=date`;
         const options = {
             method: 'GET',
@@ -64,13 +63,14 @@ router.get('/similar', (req, res) => {
                 });
                 // console.log(arrayOfVideos);
             });
+            return arrayOfVideos;
         } catch (err) {
             console.error('error:', err);
         }
 };
 
 
-fetchVideos(arrayOfVideos);
+arrayOfVideos = fetchVideos();
 console.log(arrayOfVideos);
 
 
