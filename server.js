@@ -62,7 +62,7 @@ router.get('/similar', (req, res) => {
                     title: video.title, 
                     thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`
                 }); */
-                console.log(video);
+                console.log(video.title);
             });
         } catch (err) {
             console.error('error:', err);
