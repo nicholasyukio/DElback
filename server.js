@@ -64,14 +64,13 @@ router.get('/similar', (req, res) => {
                 });
                 // console.log(arrayOfVideos);
             });
-            return arrayOfVideos;
         } catch (err) {
             console.error('error:', err);
         }
 };
 
 
-arrayOfVideos = fetchVideos();
+fetchVideos();
 console.log(arrayOfVideos);
 
 
