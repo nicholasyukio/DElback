@@ -63,15 +63,15 @@ router.get('/similar', (req, res) => {
                 });
                 // console.log(arrayOfVideos);
             });
-            return arrayOfVideos;
+            console.log(arrayOfVideos);
         } catch (err) {
             console.error('error:', err);
         }
 };
 
 
-arrayOfVideos = fetchVideos();
-console.log(arrayOfVideos);
+fetchVideos();
+//console.log(arrayOfVideos);
 
 
   // Send the array of objects as the response
