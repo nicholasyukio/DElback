@@ -50,7 +50,6 @@ router.get('/similar', (req, res) => {
                 AccessKey: bunny_api_key
             }
         };
-
         try {
             const response = await fetch(url, options);
             const data = await response.json();
@@ -68,15 +67,8 @@ router.get('/similar', (req, res) => {
         } catch (err) {
             console.error('error:', err);
         }
-};
-
-
+  };
 fetchVideos();
-//console.log(arrayOfVideos);
-
-
-  // Send the array of objects as the response
-  
 });
 
 router.get('/videoinfo/:videoId', (req, res) => {
