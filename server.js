@@ -57,12 +57,12 @@ router.get('/similar', (req, res) => {
             const data = await response.json();
             // console.log(data.items[0]);
             data.items.forEach(video => {
-                /* arrayOfVideos.push({ 
+                arrayOfVideos.push({ 
                     id: video.guid, 
                     title: video.title, 
                     thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`
-                }); */
-                console.log(video.title);
+                });
+                console.log(arrayOfVideos);
             });
         } catch (err) {
             console.error('error:', err);
