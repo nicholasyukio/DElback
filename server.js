@@ -84,7 +84,7 @@ router.get('/playlist/:playlistId', (req, res) => {
 
   const fetchVideos = async () => {
         let arrayOfVideos = [];
-        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=30&collection=${playlistId}&orderBy=title`;
+        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=100&collection=${playlistId}&orderBy=title`;
         const options = {
             method: 'GET',
             headers: {
