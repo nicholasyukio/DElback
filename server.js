@@ -28,12 +28,6 @@ app.get('/', (req, res) => {
 
 router.get('/similar', (req, res) => {
   const bunny_api_key = process.env.BUNNY_API_KEY;
-  // Sample array of objects
-  const arrayOfObjects = [
-      { id: "df888598-6b99-46ef-bb12-4f2e310af093", title: "01_circuito_corrente_alternada_calcular_frequencia.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/df888598-6b99-46ef-bb12-4f2e310af093/thumbnail_fb4e8774.jpg" },
-      { id: "718dbf44-0458-4a2c-9fef-219b8033422c", title: "02_circuito_de_primeira_ordem_RL.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/718dbf44-0458-4a2c-9fef-219b8033422c/thumbnail_7fe99388.jpg"},
-      { id: "2c1416db-7634-4f11-bd0f-112fe17b3450", title: "03_circuito_RL_potencia_complexa.mp4", thumbnail_url: "https://vz-a2c51b42-74b.b-cdn.net/2c1416db-7634-4f11-bd0f-112fe17b3450/thumbnail_66304a20.jpg" }
-  ];
 
   const availableCollections = [
     "e1e127d6-2712-410c-b61d-feb3621183f0",
@@ -76,7 +70,48 @@ router.get('/similar', (req, res) => {
             console.error('error:', err);
         }
   };
-fetchVideos();
+  fetchVideos();
+});
+
+router.get('/playlist/:playlistId', (req, res) => {
+  const bunny_api_key = process.env.BUNNY_API_KEY;
+  const playlistId = req.params.playlistId;
+
+  const availableCollections = [
+    "e1e127d6-2712-410c-b61d-feb3621183f0",
+    "e2326952-6131-46a6-b972-dd0534c280f8"
+  ];
+
+  const fetchVideos = async () => {
+        let arrayOfVideos = [];
+        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=30&collection=${playlistId}&orderBy=date`;
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                AccessKey: bunny_api_key
+            }
+        };       
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            // console.log(data.items[0]);
+            data.items.forEach(video => {
+                arrayOfVideos.push({ 
+                    id: video.guid, 
+                    title: video.title, 
+                    thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`,
+                    length: video.length
+                });
+                // console.log(arrayOfVideos);
+            });
+            console.log(arrayOfVideos);
+            res.json(arrayOfVideos);
+        } catch (err) {
+            console.error('error:', err);
+        }
+  };
+  fetchVideos();
 });
 
 router.get('/videoinfo/:videoId', (req, res) => {
