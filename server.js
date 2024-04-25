@@ -175,7 +175,7 @@ router.post('/send', (req, res, next) => {
     .then(response => response.json())
     .then(data => {
         // Handle the response
-        if (data.success === true && data.score >= 0.5) {
+        if (data.success === true && data.score >= 0.05) {
             // The reCaptcha verification was successful
             console.log("reCaptcha verification successful!");
             console.log(data);
