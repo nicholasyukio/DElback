@@ -12,7 +12,8 @@ const mailerlite = new MailerLite({
   api_key: process.env.MAILERLITE_KEY
 });
 
-const mailerlite_group_id = process.env.MAILERLITE_GROUP_ID.toString();
+const mailerlite_group_id_espera = process.env.MAILERLITE_GROUP_ID.toString();
+const mailerlite_group_id_desafio = process.env.MAILERLITE_GROUP_ID_DESAFIO.toString();
 
 //For HTTPS
 const https = require('https');
@@ -155,6 +156,13 @@ router.post('/send', (req, res, next) => {
     const utm_source = req.body.utm_source;
     const utm_term = req.body.utm_term;
     const utm_medium = req.body.utm_medium;
+    let mailerlite_group_id = "";
+
+    if (utm_term === "de_desafio") {
+      mailerlite_group_id = mailerlite_group_id_desafio;
+    } else {
+      mailerlite_group_id = mailerlite_group_id_espera;
+    }
 
     // console.log(req);
 
@@ -190,7 +198,7 @@ router.post('/send', (req, res, next) => {
                 utm_medium: utm_medium
               },
               groups: [mailerlite_group_id],
-              status: "active", // possible statuses: active, unsubscribed, unconfirmed, bounced or junk.
+              status: "active", 
               subscribed_at: formattedDateTime,
               update_at: formattedDateTime,
               ip_address: null,
