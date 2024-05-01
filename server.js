@@ -101,7 +101,7 @@ router.get('/playlist/:playlistId', (req, res) => {
                 arrayOfVideos.push({ 
                     id: video.guid, 
                     title: video.title, 
-                    thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`,
+                    thumbnail_url: `https://vz-6f64f7fb-752.b-cdn.net/${video.guid}/${video.thumbnailFileName}`,
                     length: video.length
                 });
                 // console.log(arrayOfVideos);
