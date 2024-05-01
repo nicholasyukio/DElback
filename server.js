@@ -37,7 +37,7 @@ router.get('/similar', (req, res) => {
 
   const fetchVideos = async () => {
         let arrayOfVideos = [];
-        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=30&collection=e2326952-6131-46a6-b972-dd0534c280f8&orderBy=date`;
+        const url = `https://video.bunnycdn.com/library/236258/videos?page=1&itemsPerPage=30&collection=bb29f908-2f6f-43cf-a044-6fb1c4a6c02b&orderBy=date`;
         const options = {
             method: 'GET',
             headers: {
@@ -60,7 +60,7 @@ router.get('/similar', (req, res) => {
                 arrayOfVideos.push({ 
                     id: video.guid, 
                     title: video.title, 
-                    thumbnail_url: `https://vz-a2c51b42-74b.b-cdn.net/${video.guid}/${video.thumbnailFileName}`,
+                    thumbnail_url: `https://vz-6f64f7fb-752.b-cdn.net/${video.guid}/${video.thumbnailFileName}`,
                     length: video.length
                 });
                 // console.log(arrayOfVideos);
@@ -85,7 +85,7 @@ router.get('/playlist/:playlistId', (req, res) => {
 
   const fetchVideos = async () => {
         let arrayOfVideos = [];
-        const url = `https://video.bunnycdn.com/library/188909/videos?page=1&itemsPerPage=100&collection=${playlistId}&orderBy=title`;
+        const url = `https://video.bunnycdn.com/library/236258/videos?page=1&itemsPerPage=100&collection=${playlistId}&orderBy=title`;
         const options = {
             method: 'GET',
             headers: {
@@ -119,7 +119,7 @@ router.get('/videoinfo/:videoId', (req, res) => {
   const bunny_api_key = process.env.BUNNY_API_KEY;
   const videoId = req.params.videoId;
   // const videoId = "df888598-6b99-46ef-bb12-4f2e310af093";
-  const url = `https://video.bunnycdn.com/library/188909/videos/${videoId}`;
+  const url = `https://video.bunnycdn.com/library/236258/videos/${videoId}`;
   const options = {
   method: 'GET',
   headers: {
