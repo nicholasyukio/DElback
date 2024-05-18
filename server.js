@@ -182,11 +182,16 @@ router.get('/videoinfo/:videoId', (req, res) => {
 });
 
 router.post('/getcheckout', (req, res) => {
-  createOrder(req.name, req.email)
-  .then((paymentUrl) => {
-    res.json(paymentUrl);
-  })
-  .catch(err => console.log(err));
+  const { name, email } = req.body;
+
+  createOrder(name, email)
+    .then((paymentUrl) => {
+      res.json({ paymentUrl });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'An error occurred while creating the order.' });
+    });
 });
 
 router.post('/send', (req, res, next) => {
