@@ -2,7 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var cors = require('cors');
-const { createOrder } = require('./pagarme');
+// const { createOrder } = require('./pagarme');
 // const fetch = require('node-fetch');
 const fs = require('fs');
 const serverPort = 5000;
@@ -181,7 +181,7 @@ router.get('/videoinfo/:videoId', (req, res) => {
   .catch(err => console.error('error:' + err));
 });
 
-router.post('/getcheckout', (req, res) => {
+/* router.post('/getcheckout', (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
 
@@ -193,7 +193,7 @@ router.post('/getcheckout', (req, res) => {
       console.error(err);
       res.status(500).json({ error: 'An error occurred while creating the order.' });
     });
-});
+}); */
 
 router.post('/send', (req, res, next) => {
     const currentDateTimeUTC = new Date();
