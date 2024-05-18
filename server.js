@@ -2,6 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var cors = require('cors');
+const { createOrder } = require('./pagarme');
 // const fetch = require('node-fetch');
 const fs = require('fs');
 const serverPort = 5000;
@@ -25,6 +26,51 @@ app.use('/', router);
 
 app.get('/', (req, res) => {
 	res.json('hi');
+});
+
+router.get('/recom', (req, res) => {
+  const bunny_api_key = process.env.BUNNY_API_KEY;
+  const get_video_info = async (video_id) => {
+    const library_id = "236258"
+    const url = `https://video.bunnycdn.com/library/${library_id}/videos/${video_id}`;
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            AccessKey: bunny_api_key
+        }
+    };
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return ({
+          id: data.guid, 
+          title: data.title, 
+          thumbnail_url: `https://vz-6f64f7fb-752.b-cdn.net/${data.guid}/${data.thumbnailFileName}`,
+          length: data.length
+        });
+    } catch(err) {
+      console.error('error:', err);
+    }
+  };
+
+  const call_declerk = async () => {
+    const url = `https://api.dominioeletrico.com.br/recom`;
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            AccessKey: bunny_api_key
+        }
+    };
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return (data);
+    } catch(err) {
+      console.error('error:', err);
+    }
+  };
 });
 
 router.get('/similar', (req, res) => {
@@ -133,6 +179,14 @@ router.get('/videoinfo/:videoId', (req, res) => {
     res.json(data);
   })
   .catch(err => console.error('error:' + err));
+});
+
+router.post('/getcheckout', (req, res) => {
+  createOrder(req.name, req.email)
+  .then((paymentUrl) => {
+    res.json(paymentUrl);
+  })
+  .catch(err => console.log(err));
 });
 
 router.post('/send', (req, res, next) => {
